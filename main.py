@@ -1,58 +1,66 @@
-def check_all_rows(board):
-    for row in board:
-        if all(x == 'X' for x in row):
-            return 'X'
-        elif all(x == 'O' for x in row):
-            return 'O'
-    else:
-        return '.'
+class TicTacToe:
+    @staticmethod
+    def check_all_rows(board):
+        for row in board:
+            if all(x == 'X' for x in row):
+                return 'X'
+            elif all(x == 'O' for x in row):
+                return 'O'
+        else:
+            return '.'
 
-
-def check_diagonal(board):
-    n = len(board)
-    count_x = 0
-    count_o = 0
-    for i in range(n):
-        for j in range(n):
-            count_x += int(board[i][j] == 'X')
-            count_o += int(board[i][j] == 'O')
-    if count_x == n:
-        return 'X'
-    elif count_o == n:
-        return 'O'
-    else:
-        return '.'
-
-
-def check_anti_diagonal(board):
-    pass
-
-
-def check_all_columns(board):
-    n = len(board)
-    count_x = 0
-    count_o = 0
-    for i in range(n):
-        for j in range(n):
-            count_x += int(board[j][i] == 'X')
-            count_o += int(board[j][i] == 'O')
+    @staticmethod
+    def check_diagonal(board):
+        n = len(board)
+        count_x = 0
+        count_o = 0
+        for i in range(n):
+            for j in range(n):
+                count_x += int(board[i][j] == 'X')
+                count_o += int(board[i][j] == 'O')
         if count_x == n:
             return 'X'
         elif count_o == n:
             return 'O'
-    return '.'
+        else:
+            return '.'
+
+    @staticmethod
+    def check_anti_diagonal(board):
+        pass
+
+    @staticmethod
+    def check_all_columns(board):
+        n = len(board)
+        count_x = 0
+        count_o = 0
+        for i in range(n):
+            for j in range(n):
+                count_x += int(board[j][i] == 'X')
+                count_o += int(board[j][i] == 'O')
+            if count_x == n:
+                return 'X'
+            elif count_o == n:
+                return 'O'
+        return '.'
+
+    @staticmethod
+    def check_whole_board(board):
+        """TODO"""
+        pass
 
 
-first_row = input()
-n = len(first_row)
-board = [first_row]
+if __name__ == "__main__":
+    first_row = input()
+    n = len(first_row)
+    board = [first_row]
 
-while len(board) < n:
-    row = input()
-    if len(row) != n:
-        exit(1)
-    else:
-        board.append(row)
+    while len(board) < n:
+        row = input()
+        if len(row) != n:
+            exit(1)
+        else:
+            board.append(row)
 
-print(check_all_rows(board))
-print(check_all_columns(board))
+    print(TicTacToe.check_all_rows(board))
+    print(TicTacToe.check_all_columns(board))
