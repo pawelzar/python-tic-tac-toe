@@ -1,8 +1,9 @@
-def check_row(row):
-    if all(x == 'X' for x in row):
-        return 'X'
-    elif all(x == 'O' for x in row):
-        return 'O'
+def check_all_rows(board):
+    for row in board:
+        if all(x == 'X' for x in row):
+            return 'X'
+        elif all(x == 'O' for x in row):
+            return 'O'
     else:
         return '.'
 
@@ -50,7 +51,8 @@ while len(board) < n:
     row = input()
     if len(row) != n:
         exit(1)
-    elif check_row(row) != '.':
-        print(check_row(row))
     else:
         board.append(row)
+
+print(check_all_rows(board))
+print(check_all_columns(board))
