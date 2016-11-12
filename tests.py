@@ -9,7 +9,7 @@ class Test(unittest.TestCase):
             '.Ox',
             '.X.'
         ]
-        self.assertEqual(".", Tic.check_whole_board(board))
+        self.assertEqual(".", Tic.check_winner(board))
 
     def test_4x4_win(self):
         board = [
@@ -18,4 +18,4 @@ class Test(unittest.TestCase):
             '..X.',
             '...X'
         ]
-        self.assertEqual("X", Tic.check_whole_board(board))
+        self.assertEqual("X", Tic.check_winner(board))
