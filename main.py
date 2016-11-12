@@ -1,6 +1,7 @@
 class TicTacToe:
     @staticmethod
     def board_is_correct(board):
+        n = len(board)
         for row in board:
             if len(row) != n:
                 return False
@@ -9,9 +10,9 @@ class TicTacToe:
     @staticmethod
     def check_all_rows(board):
         for row in board:
-            if all(x == 'X' for x in row):
+            if all(a == 'X' for a in row):
                 return 'X'
-            elif all(x == 'O' for x in row):
+            elif all(a == 'O' for a in row):
                 return 'O'
         else:
             return '.'
@@ -19,8 +20,7 @@ class TicTacToe:
     @staticmethod
     def check_all_columns(board):
         n = len(board)
-        count_x = 0
-        count_o = 0
+        count_x, count_o = 0, 0
         for i in range(n):
             for j in range(n):
                 count_x += int(board[j][i] == 'X')
@@ -29,17 +29,16 @@ class TicTacToe:
                 return 'X'
             elif count_o == n:
                 return 'O'
+            count_x, count_o = 0, 0
         return '.'
 
     @staticmethod
     def check_diagonal(board):
         n = len(board)
-        count_x = 0
-        count_o = 0
+        count_x, count_o = 0, 0
         for i in range(n):
-            for j in range(n):
-                count_x += int(board[i][j] == 'X')
-                count_o += int(board[i][j] == 'O')
+            count_x += int(board[i][i] == 'X')
+            count_o += int(board[i][i] == 'O')
         if count_x == n:
             return 'X'
         elif count_o == n:
@@ -50,12 +49,10 @@ class TicTacToe:
     @staticmethod
     def check_anti_diagonal(board):
         n = len(board)
-        count_x = 0
-        count_o = 0
-        for i in range(n):
-            for j in range(n):
-                count_x += int(board[i][j] == 'X')
-                count_o += int(board[i][j] == 'O')
+        count_x, count_o = 0, 0
+        for i in range(n-1, -1, -1):
+            count_x += int(board[i][i] == 'X')
+            count_o += int(board[i][i] == 'O')
         if count_x == n:
             return 'X'
         elif count_o == n:
