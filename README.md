@@ -1,9 +1,9 @@
-# Tic-tac-toe win state checker.
+# Tic-tac-toe win state checker
 
 The rules of a Tic-tac-toe (https://en.wikipedia.org/wiki/Tictactoe):
 - Played on an NxN board.
 - Two players, X and O.
-- A player has won if they occupy an entire row, column or diagonal.
+- A player has won if occupies an entire row, column or diagonal.
 
 The program should accept a board state through stdin, and output a "X" or "O" if either of those
 players won, and "." if no player has won. If the state of the board is invalid, the program should fail

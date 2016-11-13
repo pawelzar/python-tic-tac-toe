@@ -1,100 +1,79 @@
 class TicTacToe:
-    @staticmethod
-    def board_is_correct(board):
+    def __init__(self, board):
+        self.board = board
+        self.n = len(board[0])
+
+    def is_correct(self):
         """
-        Determine if board is either NxN (True) or not (False).
+        Return True if board is NxN and False if not.
         """
-        n = len(board)
-        for row in board:
-            if len(row) != n:
+        for row in self.board:
+            if len(row) != self.n:
                 return False
         return True
 
-    @staticmethod
-    def check_all_rows(board):
+    def check_rows(self):
         """
         Return 'X' if any row consists entirely of 'X', 'O' accordingly.
         If there is no such row, then return '.'.
         """
-        for row in board:
+        for row in self.board:
             if all(a == 'X' for a in row):
                 return 'X'
             elif all(a == 'O' for a in row):
                 return 'O'
-        else:
-            return '.'
+        return '.'
 
-    @staticmethod
-    def check_all_columns(board):
+    def check_columns(self):
         """
         Return 'X' if any column consists entirely of 'X', 'O' accordingly.
         If there is no such column, then return '.'.
         """
-        n = len(board)
         count_x, count_o = 0, 0
-        for i in range(n):
-            for j in range(n):
-                count_x += int(board[j][i] == 'X')
-                count_o += int(board[j][i] == 'O')
-            if count_x == n:
+        for i in range(self.n):
+            for j in range(self.n):
+                count_x += int(self.board[j][i] == 'X')
+                count_o += int(self.board[j][i] == 'O')
+            if count_x == self.n:
                 return 'X'
-            elif count_o == n:
+            elif count_o == self.n:
                 return 'O'
             count_x, count_o = 0, 0
         return '.'
 
-    @staticmethod
-    def check_diagonal(board):
+    def check_diagonals(self):
         """
-        Return 'X' if diagonal consists entirely of 'X', 'O' accordingly.
+        Return 'X' if any diagonal consists entirely of 'X', 'O' accordingly.
         Otherwise return '.'.
         """
-        n = len(board)
         count_x, count_o = 0, 0
-        for i in range(n):
-            count_x += int(board[i][i] == 'X')
-            count_o += int(board[i][i] == 'O')
-        if count_x == n:
+        count_anti_x, count_anti_o = 0, 0
+        for i in range(self.n):
+            count_x += int(self.board[i][i] == 'X')
+            count_o += int(self.board[i][i] == 'O')
+            count_anti_x += int(self.board[i][self.n-i-1] == 'X')
+            count_anti_o += int(self.board[i][self.n-i-1] == 'O')
+        if count_x == self.n or count_anti_x == self.n:
             return 'X'
-        elif count_o == n:
+        elif count_o == self.n or count_anti_o == self.n:
             return 'O'
         else:
             return '.'
 
-    @staticmethod
-    def check_anti_diagonal(board):
+    def check_winner(self):
         """
-        Return 'X' if anti diagonal consists entirely of 'X', 'O' accordingly.
-        Otherwise return '.'.
-        """
-        n = len(board)
-        count_x, count_o = 0, 0
-        for i in range(n-1, -1, -1):
-            count_x += int(board[n-i-1][i] == 'X')
-            count_o += int(board[n-i-1][i] == 'O')
-        if count_x == n:
-            return 'X'
-        elif count_o == n:
-            return 'O'
-        else:
-            return '.'
-
-    @staticmethod
-    def check_winner(board):
-        """
-        Return winner by checking all conditions.
-        A player has won if they occupy an entire row, column or diagonal.
+        Return winner by checking all possibilities.
+        A player has won if occupies an entire row, column or diagonal.
         """
         winner = "."
         possibilities = [
-            TicTacToe.check_all_rows,
-            TicTacToe.check_all_columns,
-            TicTacToe.check_diagonal,
-            TicTacToe.check_anti_diagonal
+            self.check_rows,
+            self.check_columns,
+            self.check_diagonals,
         ]
 
         while winner == '.' and possibilities:
-            winner = possibilities[0](board)
+            winner = possibilities[0]()
             del possibilities[0]
 
         return winner
@@ -102,13 +81,12 @@ class TicTacToe:
 
 if __name__ == "__main__":
     first_row = input()
-    n = len(first_row)
-    board = [first_row]
+    game = TicTacToe([first_row])
 
-    while len(board) < n:
-        board.append(input())
+    while len(game.board) < game.n:
+        game.board.append(input())
 
-    if not TicTacToe.board_is_correct(board):
+    if not game.is_correct():
         exit(1)
     else:
-        print(TicTacToe.check_winner(board))
+        print(game.check_winner())

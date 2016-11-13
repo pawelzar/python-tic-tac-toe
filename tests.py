@@ -1,5 +1,5 @@
 import unittest
-from tictactoe import TicTacToe as Tic
+from tictactoe import TicTacToe
 
 
 class BoardTestCase(unittest.TestCase):
@@ -9,7 +9,8 @@ class BoardTestCase(unittest.TestCase):
             '...',
             '...'
         ]
-        self.assertTrue(Tic.board_is_correct(board),
+        game = TicTacToe(board)
+        self.assertTrue(game.is_correct(),
                         "Should return True if board is NxN.")
 
     def test_incorrect_board(self):
@@ -17,10 +18,11 @@ class BoardTestCase(unittest.TestCase):
             'XXOO.',
             '...X.',
             'OOOO',
-            '....',
+            '..',
             '.....'
         ]
-        self.assertFalse(Tic.board_is_correct(board),
+        game = TicTacToe(board)
+        self.assertFalse(game.is_correct(),
                          "Should return False if board is not NxN.")
 
 
@@ -31,7 +33,8 @@ class WinnerTestCase(unittest.TestCase):
             '.Ox',
             '.X.'
         ]
-        self.assertEqual(".", Tic.check_winner(board),
+        game = TicTacToe(board)
+        self.assertEqual(".", game.check_winner(),
                          "Should not be any winner.")
 
     def test_4x4_row(self):
@@ -41,16 +44,26 @@ class WinnerTestCase(unittest.TestCase):
             '.OOO',
             '....'
         ]
-        self.assertEqual('.', Tic.check_all_rows(board),
+        game = TicTacToe(board)
+        self.assertEqual('.', game.check_rows(),
                          "Should not win if row is incomplete.")
 
-        board = [
+        game.board = [
             'X...',
             '....',
             'OOOO',
             'X...'
         ]
-        self.assertEqual('O', Tic.check_all_rows(board),
+        self.assertEqual('O', game.check_rows(),
+                         "Should win if row is complete.")
+
+        game.board = [
+            'X...',
+            '....',
+            'XXXX',
+            'X...'
+        ]
+        self.assertEqual('X', game.check_rows(),
                          "Should win if row is complete.")
 
     def test_4x4_column(self):
@@ -60,16 +73,17 @@ class WinnerTestCase(unittest.TestCase):
             'X...',
             '....'
         ]
-        self.assertEqual('.', Tic.check_all_columns(board),
+        game = TicTacToe(board)
+        self.assertEqual('.', game.check_columns(),
                          "Should not win if column is incomplete.")
 
-        board = [
+        game.board = [
             'X...',
             'X...',
             'X...',
             'X...'
         ]
-        self.assertEqual('X', Tic.check_all_columns(board),
+        self.assertEqual('X', game.check_columns(),
                          "Should win if column is complete.")
 
     def test_4x4_diagonal(self):
@@ -79,16 +93,17 @@ class WinnerTestCase(unittest.TestCase):
             '..X.',
             '....'
         ]
-        self.assertEqual('.', Tic.check_diagonal(board),
+        game = TicTacToe(board)
+        self.assertEqual('.', game.check_diagonals(),
                          "Should not win if diagonal is incomplete.")
 
-        board = [
+        game.board = [
             'X...',
             '.X..',
             '..X.',
             '...X'
         ]
-        self.assertEqual("X", Tic.check_diagonal(board),
+        self.assertEqual("X", game.check_diagonals(),
                          "Should win if diagonal is complete.")
 
     def test_4x4_anti_diagonal(self):
@@ -98,14 +113,38 @@ class WinnerTestCase(unittest.TestCase):
             '.X..',
             '....'
         ]
-        self.assertEqual('.', Tic.check_anti_diagonal(board),
+        game = TicTacToe(board)
+        self.assertEqual('.', game.check_diagonals(),
                          "Should not win if diagonal is incomplete.")
 
-        board = [
+        game.board = [
             '...O',
             '..O.',
             '.O..',
             'O...'
         ]
-        self.assertEqual("O", Tic.check_anti_diagonal(board),
+        self.assertEqual("O", game.check_diagonals(),
                          "Should win if diagonal is complete.")
+
+
+class FullTestCase(unittest.TestCase):
+    def setUp(self):
+        board = [
+            'XOXOXO',
+            'O..O.X',
+            '.XXO..',
+            'OOXO.O',
+            'X.XO.X',
+            '..XOX.'
+        ]
+        self.game = TicTacToe(board)
+
+    def test_all_in_one(self):
+        self.assertEqual(".", self.game.check_rows(),
+                         "Should not detect complete row.")
+        self.assertEqual("O", self.game.check_columns(),
+                         "Should detect complete column.")
+        self.assertEqual(".", self.game.check_diagonals(),
+                         "Should not detect complete diagonal.")
+        self.assertEqual("O", self.game.check_winner(),
+                         "Should win if column is complete.")
