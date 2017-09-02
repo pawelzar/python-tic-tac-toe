@@ -12,7 +12,7 @@ class BoardTestCase(TestCase):
         ]
         game = TicTacToe(board)
         self.assertTrue(game.is_correct(),
-                        'Should return True if board is NxN.')
+                        'Should return True if board is square.')
 
     def test_incorrect_board(self):
         board = [
@@ -24,7 +24,7 @@ class BoardTestCase(TestCase):
         ]
         game = TicTacToe(board)
         self.assertFalse(game.is_correct(),
-                         'Should return False if board is not NxN.')
+                         'Should return False if board is not square.')
 
 
 class WinnerTestCase(TestCase):
@@ -35,8 +35,8 @@ class WinnerTestCase(TestCase):
             '.X.'
         ]
         game = TicTacToe(board)
-        self.assertEqual('.', game.check_winner(),
-                         'Should not be any winner.')
+        self.assertEqual('.', game.result(),
+                         'Should not return any winner.')
 
     def test_4x4_row(self):
         board = [
@@ -147,5 +147,5 @@ class FullTestCase(TestCase):
                          'Should detect complete column.')
         self.assertEqual('.', self.game.check_diagonals(),
                          'Should not detect complete diagonal.')
-        self.assertEqual('O', self.game.check_winner(),
+        self.assertEqual('O', self.game.result(),
                          'Should win if column is complete.')
