@@ -1,14 +1,14 @@
 class TicTacToe:
     def __init__(self, board):
         self.board = board
-        self.n = len(board[0])
+        self.size = len(board[0])
 
     def is_correct(self):
         """
-        Return True if board is NxN and False if not.
+        Checks if board is square.
         """
         for row in self.board:
-            if len(row) != self.n:
+            if len(row) != self.size:
                 return False
         return True
 
@@ -30,13 +30,13 @@ class TicTacToe:
         If there is no such column, then return '.'.
         """
         count_x, count_o = 0, 0
-        for i in range(self.n):
-            for j in range(self.n):
+        for i in range(self.size):
+            for j in range(self.size):
                 count_x += int(self.board[j][i] == 'X')
                 count_o += int(self.board[j][i] == 'O')
-            if count_x == self.n:
+            if count_x == self.size:
                 return 'X'
-            elif count_o == self.n:
+            elif count_o == self.size:
                 return 'O'
             count_x, count_o = 0, 0
         return '.'
@@ -48,45 +48,49 @@ class TicTacToe:
         """
         count_x, count_o = 0, 0
         count_anti_x, count_anti_o = 0, 0
-        for i in range(self.n):
+
+        for i in range(self.size):
             count_x += int(self.board[i][i] == 'X')
             count_o += int(self.board[i][i] == 'O')
-            count_anti_x += int(self.board[i][self.n-i-1] == 'X')
-            count_anti_o += int(self.board[i][self.n-i-1] == 'O')
-        if count_x == self.n or count_anti_x == self.n:
+            count_anti_x += int(self.board[i][self.size - i - 1] == 'X')
+            count_anti_o += int(self.board[i][self.size - i - 1] == 'O')
+
+        if count_x == self.size or count_anti_x == self.size:
             return 'X'
-        elif count_o == self.n or count_anti_o == self.n:
+        elif count_o == self.size or count_anti_o == self.size:
             return 'O'
-        else:
-            return '.'
+
+        return '.'
 
     def check_winner(self):
         """
         Return winner by checking all possibilities.
         A player has won if occupies an entire row, column or diagonal.
         """
-        winner = "."
-        possibilities = [
-            self.check_rows,
-            self.check_columns,
-            self.check_diagonals,
-        ]
+        winner = '.'
+        possibilities = (
+            possibility for possibility in [
+                self.check_rows, self.check_columns, self.check_diagonals
+            ]
+        )
 
-        while winner == '.' and possibilities:
-            winner = possibilities[0]()
-            del possibilities[0]
+        while winner == '.':
+            try:
+                winner = next(possibilities)()
+            except StopIteration:
+                break
 
         return winner
 
 
-if __name__ == "__main__":
-    first_row = input()
-    game = TicTacToe([first_row])
+if __name__ == '__main__':
+    FIRST_ROW = input()
+    GAME = TicTacToe([FIRST_ROW])
 
-    while len(game.board) < game.n:
-        game.board.append(input())
+    while len(GAME.board) < GAME.size:
+        GAME.board.append(input())
 
-    if not game.is_correct():
+    if not GAME.is_correct():
         exit(1)
-    else:
-        print(game.check_winner())
+
+    print(GAME.check_winner())
