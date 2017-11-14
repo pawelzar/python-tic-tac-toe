@@ -8,7 +8,7 @@ class BoardTestCase(TestCase):
         board = [
             '...',
             '...',
-            '...'
+            '...',
         ]
         game = TicTacToe(board)
         self.assertTrue(game.is_correct(),
@@ -20,7 +20,7 @@ class BoardTestCase(TestCase):
             '...X.',
             'OOOO',
             '..',
-            '.....'
+            '.....',
         ]
         game = TicTacToe(board)
         self.assertFalse(game.is_correct(),
@@ -32,7 +32,7 @@ class WinnerTestCase(TestCase):
         board = [
             'XO.',
             '.Ox',
-            '.X.'
+            '.X.',
         ]
         game = TicTacToe(board)
         self.assertEqual('.', game.result(),
@@ -43,7 +43,7 @@ class WinnerTestCase(TestCase):
             'XXX.',
             'X...',
             '.OOO',
-            '....'
+            '....',
         ]
         game = TicTacToe(board)
         self.assertEqual('.', game.check_rows(),
@@ -53,7 +53,7 @@ class WinnerTestCase(TestCase):
             'X...',
             '....',
             'OOOO',
-            'X...'
+            'X...',
         ]
         self.assertEqual('O', game.check_rows(),
                          'Should win if row is complete.')
@@ -62,7 +62,7 @@ class WinnerTestCase(TestCase):
             'X...',
             '....',
             'XXXX',
-            'X...'
+            'X...',
         ]
         self.assertEqual('X', game.check_rows(),
                          'Should win if row is complete.')
@@ -72,7 +72,7 @@ class WinnerTestCase(TestCase):
             'X...',
             'X...',
             'X...',
-            '....'
+            '....',
         ]
         game = TicTacToe(board)
         self.assertEqual('.', game.check_columns(),
@@ -82,7 +82,7 @@ class WinnerTestCase(TestCase):
             'X...',
             'X...',
             'X...',
-            'X...'
+            'X...',
         ]
         self.assertEqual('X', game.check_columns(),
                          'Should win if column is complete.')
@@ -92,7 +92,7 @@ class WinnerTestCase(TestCase):
             'X...',
             '.X..',
             '..X.',
-            '....'
+            '....',
         ]
         game = TicTacToe(board)
         self.assertEqual('.', game.check_diagonals(),
@@ -102,7 +102,7 @@ class WinnerTestCase(TestCase):
             'X...',
             '.X..',
             '..X.',
-            '...X'
+            '...X',
         ]
         self.assertEqual('X', game.check_diagonals(),
                          'Should win if diagonal is complete.')
@@ -112,7 +112,7 @@ class WinnerTestCase(TestCase):
             '...X',
             '..X.',
             '.X..',
-            '....'
+            '....',
         ]
         game = TicTacToe(board)
         self.assertEqual('.', game.check_diagonals(),
@@ -122,7 +122,7 @@ class WinnerTestCase(TestCase):
             '...O',
             '..O.',
             '.O..',
-            'O...'
+            'O...',
         ]
         self.assertEqual('O', game.check_diagonals(),
                          'Should win if diagonal is complete.')
@@ -136,7 +136,7 @@ class FullTestCase(TestCase):
             '.XXO..',
             'OOXO.O',
             'X.XO.X',
-            '..XOX.'
+            '..XOX.',
         ]
         self.game = TicTacToe(board)
 
