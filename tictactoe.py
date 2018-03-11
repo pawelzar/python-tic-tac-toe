@@ -2,11 +2,10 @@ class TicTacToe:
     def __init__(self, board):
         self.board = board
         self.size = len(board[0])
-        self.no_winner = '.'
 
     def is_correct(self):
         """
-        Check if board is square.
+        Check if every row has the same length as the number of rows.
         """
         return not any(len(row) != self.size for row in self.board)
 
@@ -22,8 +21,6 @@ class TicTacToe:
             elif all(a == 'O' for a in row):
                 return 'O'
 
-        return self.no_winner
-
     def check_columns(self):
         """
         Check if any player occupies any column entirely.
@@ -35,8 +32,6 @@ class TicTacToe:
                 return 'X'
             elif all(a == 'O' for a in col):
                 return 'O'
-
-        return self.no_winner
 
     def check_diagonals(self):
         """
@@ -55,10 +50,9 @@ class TicTacToe:
 
         if count_x == self.size or count_anti_x == self.size:
             return 'X'
-        elif count_o == self.size or count_anti_o == self.size:
-            return 'O'
 
-        return self.no_winner
+        if count_o == self.size or count_anti_o == self.size:
+            return 'O'
 
     def result(self):
         """
@@ -71,12 +65,12 @@ class TicTacToe:
             self.check_rows, self.check_columns, self.check_diagonals
         ]
 
-        for possibility in possibilities:
-            result = possibility()
-            if result != self.no_winner:
+        for check_possibility in possibilities:
+            result = check_possibility()
+            if result:
                 return result
 
-        return self.no_winner
+        return '.'
 
 
 if __name__ == '__main__':
